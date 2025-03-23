@@ -6,13 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useHealthRecords } from '../../../hooks/useHealthRecords';
 import Link from 'next/link';
 
-interface PageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function HealthRecordDetailPage({ params }: PageProps) {
+export default function HealthRecordDetailPage({ params }: { params: { id: string } }) {
   const [pageTitle, setPageTitle] = useState("Detailed Health Record");
   const { getRecordById } = useHealthRecords();
   const router = useRouter();

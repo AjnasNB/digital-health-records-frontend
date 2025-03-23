@@ -7,8 +7,19 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import { useHealthRecords, HealthRecord } from '../../hooks/useHealthRecords';
 import PdfViewer from '../../components/PdfViewer';
+import React from 'react';
 
-export default function RecordDetail({ params }: { params: { id: string } }) {
+// Define the correct interface pattern for the page props
+type PageProps = {
+  params: Promise<{ id: string }> | { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export default function RecordDetail(props: PageProps) {
+  // Unwrap params using React.use if it's a promise
+  const resolvedParams = props.params instanceof Promise ? React.use(props.params) : props.params;
+  const recordId = resolvedParams.id;
+
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
   const { getRecordById, deleteRecord, isLoading: hookLoading } = useHealthRecords();
@@ -30,7 +41,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
     const fetchRecord = async () => {
       if (isAuthenticated) {
         setIsLoading(true);
-        const recordData = await getRecordById(params.id);
+        const recordData = await getRecordById(recordId);
         if (recordData) {
           setRecord(recordData);
           document.title = `${recordData.title} | Docufy`;
@@ -42,7 +53,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
     };
     
     fetchRecord();
-  }, [isAuthenticated, loading, params.id, router, getRecordById]);
+  }, [isAuthenticated, loading, recordId, router, getRecordById]);
 
   useEffect(() => {
     if (isLoading) {
@@ -69,7 +80,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
 
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
-      const success = await deleteRecord(params.id);
+      const success = await deleteRecord(recordId);
       if (success) {
         router.push('/dashboard');
       }
@@ -194,7 +205,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
             This document has no extracted data available or is still being processed.
           </p>
           <Link 
-            href={`/records/${params.id}/full`}
+            href={`/records/${recordId}/full`}
             className="mt-4 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
           >
             View Full Record Details
@@ -220,7 +231,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
           </div>
           <div className="px-4 py-3 text-right sm:px-6 border-t border-gray-700">
             <Link 
-              href={`/records/${params.id}/full`}
+              href={`/records/${recordId}/full`}
               className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
             >
               View Full Record Details
@@ -272,7 +283,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
             {record.structuredData && Object.keys(record.structuredData).length > 0 && (
               <div className="px-4 py-5 sm:px-6 border-t border-gray-700">
                 <Link 
-                  href={`/records/${params.id}/full`}
+                  href={`/records/${recordId}/full`}
                   className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
                 >
                   View Structured Data & Full Details
@@ -303,7 +314,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
             </div>
             <div className="flex space-x-3">
               <Link 
-                href={`/records/${params.id}/full`}
+                href={`/records/${recordId}/full`}
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
                 View Detailed Info

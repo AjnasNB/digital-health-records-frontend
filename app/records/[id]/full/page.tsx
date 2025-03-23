@@ -6,7 +6,17 @@ import { useRouter } from 'next/navigation';
 import { useHealthRecords } from '../../../hooks/useHealthRecords';
 import Link from 'next/link';
 
-export default function HealthRecordDetailPage({ params }: { params: { id: string } }) {
+// Define the correct interface pattern for the page props
+type PageProps = {
+  params: Promise<{ id: string }> | { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export default function HealthRecordDetailPage(props: PageProps) {
+  // Unwrap params using React.use if it's a promise
+  const resolvedParams = props.params instanceof Promise ? React.use(props.params) : props.params;
+  const recordId = resolvedParams.id;
+  
   const [pageTitle, setPageTitle] = useState("Detailed Health Record");
   const { getRecordById } = useHealthRecords();
   const router = useRouter();
@@ -14,7 +24,7 @@ export default function HealthRecordDetailPage({ params }: { params: { id: strin
   useEffect(() => {
     // Fetch the record to get its title
     const fetchRecordTitle = async () => {
-      const record = await getRecordById(params.id);
+      const record = await getRecordById(recordId);
       if (record) {
         setPageTitle(`${record.title} - Health Record Details`);
         // Update the document title directly
@@ -23,7 +33,7 @@ export default function HealthRecordDetailPage({ params }: { params: { id: strin
     };
 
     fetchRecordTitle();
-  }, [params.id, getRecordById]);
+  }, [recordId, getRecordById]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white pt-24 pb-12">
@@ -32,7 +42,7 @@ export default function HealthRecordDetailPage({ params }: { params: { id: strin
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="flex items-center mb-4 md:mb-0">
               <Link
-                href={`/records/${params.id}`}
+                href={`/records/${recordId}`}
                 className="text-blue-400 hover:text-blue-300 flex items-center"
               >
                 <svg className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,7 +63,7 @@ export default function HealthRecordDetailPage({ params }: { params: { id: strin
           </p>
         </div>
         
-        <DetailedHealthRecord recordId={params.id} />
+        <DetailedHealthRecord recordId={recordId} />
       </div>
     </div>
   );

@@ -1,15 +1,18 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Box, Container, Typography, Paper, Button, Divider, Chip } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import VerificationCall from '../../../components/VerificationCall';
 import { getRecordById } from '../../../services/api';
 import { useAuth } from '../../../context/AuthContext';
 
-export default function VerificationPage() {
-  const { id } = useParams();
+export default function VerificationPage(props) {
+  // Unwrap params using React.use if it's a promise
+  const resolvedParams = props.params instanceof Promise ? React.use(props.params) : props.params;
+  const recordId = resolvedParams.id;
+  
   const router = useRouter();
   const { user } = useAuth();
   const [record, setRecord] = useState(null);
@@ -25,26 +28,24 @@ export default function VerificationPage() {
     const fetchRecord = async () => {
       try {
         setLoading(true);
-        const response = await getRecordById(id);
+        const response = await getRecordById(recordId);
         setRecord(response.data);
+        setLoading(false);
       } catch (err) {
-        console.error('Error fetching health record:', err);
-        setError('Failed to load health record. Please try again later.');
-      } finally {
+        console.error('Error fetching record:', err);
+        setError('Failed to load health record. Please try again.');
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchRecord();
-    }
-  }, [id, user, router]);
+    fetchRecord();
+  }, [user, recordId, router]);
 
   const handleVerificationComplete = (status) => {
     // Refresh the record data to show updated verification status
     if (status.status === 'ended') {
       setTimeout(() => {
-        getRecordById(id)
+        getRecordById(recordId)
           .then(response => setRecord(response.data))
           .catch(err => console.error('Error refreshing record data:', err));
       }, 2000); // Small delay to ensure backend has processed everything
@@ -124,7 +125,7 @@ export default function VerificationPage() {
           <Divider sx={{ my: 3 }} />
           
           <VerificationCall 
-            recordId={id} 
+            recordId={recordId} 
             patientPhone={getPatientPhone()}
             onVerificationComplete={handleVerificationComplete}
           />

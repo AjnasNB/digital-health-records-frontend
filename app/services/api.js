@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { refreshToken } from '../context/AuthContext';
 
 // Create an axios instance with base URL and default headers
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://docxbackend.ajnasnb.com/api';
@@ -10,6 +9,24 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json'
   }
 });
+
+// Local implementation of token refresh
+const refreshToken = async () => {
+  try {
+    // Since we don't have a real refresh token endpoint, we'll just return the existing token
+    // In a real app, you would make a request to refresh the token
+    const currentToken = localStorage.getItem('token');
+    if (!currentToken) {
+      throw new Error('No token available');
+    }
+    return currentToken;
+  } catch (error) {
+    console.error('Failed to refresh token:', error);
+    // Clear token on refresh failure
+    localStorage.removeItem('token');
+    return null;
+  }
+};
 
 // Add request interceptor for authentication
 axiosInstance.interceptors.request.use(

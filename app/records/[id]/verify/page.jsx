@@ -9,8 +9,8 @@ import { getRecordById } from '../../../services/api';
 import { useAuth } from '../../../context/AuthContext';
 
 export default function VerificationPage(props) {
-  // Unwrap params using React.use if it's a promise
-  const resolvedParams = props.params instanceof Promise ? React.use(props.params) : props.params;
+  // Always use React.use to unwrap the params promise
+  const resolvedParams = React.use(props.params);
   const recordId = resolvedParams.id;
   
   const router = useRouter();

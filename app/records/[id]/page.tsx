@@ -18,7 +18,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     // Update document title
-    document.title = "Health Record | Digital Health Records";
+    document.title = "Health Record | Docufy";
 
     // Redirect if not authenticated and not loading
     if (!isAuthenticated && !loading) {
@@ -33,7 +33,7 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
         const recordData = await getRecordById(params.id);
         if (recordData) {
           setRecord(recordData);
-          document.title = `${recordData.title} | Digital Health Records`;
+          document.title = `${recordData.title} | Docufy`;
         } else {
           router.push('/dashboard');
         }
@@ -43,6 +43,18 @@ export default function RecordDetail({ params }: { params: { id: string } }) {
     
     fetchRecord();
   }, [isAuthenticated, loading, params.id, router, getRecordById]);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.title = "Health Record | Docufy";
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (record) {
+      document.title = `${record.title} | Docufy`;
+    }
+  }, [record]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

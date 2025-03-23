@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>MediLab Records - Your Digital Health Records</title>
+        <title>Docufy - Your Digital Health Records</title>
         <meta name="description" content="Digitalize and manage your health records with AI-powered insights" />
         <link rel="icon" href="/assets/logo-removebg-preview.png" />
       </head>

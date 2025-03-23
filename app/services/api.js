@@ -2,7 +2,7 @@ import axios from 'axios';
 import { refreshToken } from '../context/AuthContext';
 
 // Create an axios instance with base URL and default headers
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://docxbackend.ajnasnb.com/api';
 
 const axiosInstance = axios.create({
   baseURL: apiBaseUrl,

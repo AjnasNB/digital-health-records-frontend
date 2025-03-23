@@ -130,17 +130,16 @@ export default function Register() {
                 <div className="p-2 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-3xl backdrop-blur-sm">
                   <Image 
                     src="/assets/logo-removebg-preview.png" 
-                    alt="MediLab Records Logo" 
+                    alt="Docufy Logo"
                     width={60} 
                     height={60}
-                    className="animate-pulse"
-                    style={{ animationDuration: '3s' }}
+                    className="mx-auto mb-6"
                   />
                 </div>
               </div>
-              <h2 className="text-2xl font-bold text-white">Create an Account</h2>
-              <p className="mt-2 text-sm text-gray-400">
-                Join MediLab Records to manage your health documents
+              <h2 className="text-3xl font-bold mb-6 text-white text-center">Create Your Account</h2>
+              <p className="text-gray-300 text-center mb-6">
+                Join Docufy to manage your health documents
               </p>
             </div>
             

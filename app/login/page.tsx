@@ -61,11 +61,10 @@ export default function Login() {
           <div className="p-3 bg-gradient-to-r from-blue-500/30 to-indigo-500/30 rounded-full backdrop-blur-sm shadow-xl shadow-blue-900/20">
             <Image 
               src="/assets/logo-removebg-preview.png" 
-              alt="MediLab Records Logo" 
-              width={80} 
-              height={80}
-              className="animate-pulse"
-              style={{ animationDuration: '3s' }}
+              alt="Docufy Logo"
+              width={60} 
+              height={60}
+              className="mb-6"
             />
           </div>
         </div>

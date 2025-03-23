@@ -24,7 +24,7 @@ export default function HealthRecordDetailPage({ params }: PageProps) {
       if (record) {
         setPageTitle(`${record.title} - Health Record Details`);
         // Update the document title directly
-        document.title = `${record.title} - Health Record Details | Digital Health Records`;
+        document.title = `${record.title} - Health Record Details | Docufy`;
       }
     };
 

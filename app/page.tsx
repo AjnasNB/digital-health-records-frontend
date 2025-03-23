@@ -52,7 +52,7 @@ export default function Home() {
                 Your Health Records,<br />Digitized & Intelligent
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                MediLab Records transforms your paper health documents into smart digital records. 
+                Docufy transforms your paper health documents into smart digital records. 
                 Upload any medical document and our AI instantly extracts, organizes, and 
                 provides insights on your health data.
               </p>
@@ -207,12 +207,12 @@ export default function Home() {
             <div className="flex items-center mb-6 md:mb-0">
           <Image
                 src="/assets/logo-removebg-preview.png" 
-                alt="MediLab Records Logo" 
+                alt="Docufy Logo" 
                 width={40} 
                 height={40}
                 className="mr-2"
               />
-              <span className="text-xl font-semibold text-white">MediLab Records</span>
+              <span className="text-xl font-semibold text-white">Docufy</span>
             </div>
             <div className="flex gap-8 mb-6 md:mb-0">
               <Link href="/about" className="text-gray-400 hover:text-white transition-colors">About</Link>
@@ -222,7 +222,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500">
-            <p>&copy; {new Date().getFullYear()} MediLab Records. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Docufy. All rights reserved.</p>
           </div>
         </div>
       </footer>

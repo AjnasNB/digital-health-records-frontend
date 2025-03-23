@@ -6,16 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useHealthRecords } from '../../../hooks/useHealthRecords';
 import Link from 'next/link';
 
-// Define the correct interface pattern for the page props from Next.js 15
-type PageProps = {
-  params: Promise<any>;
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export default function HealthRecordDetailPage(props: PageProps) {
-  // Always use React.use to unwrap the params promise
-  const resolvedParams = React.use(props.params);
-  const recordId = resolvedParams.id;
+// Update to the simpler recommended pattern
+export default function HealthRecordDetailPage({ params }: { params: { id: string } }) {
+  const recordId = params.id;
   
   const [pageTitle, setPageTitle] = useState("Detailed Health Record");
   const { getRecordById } = useHealthRecords();

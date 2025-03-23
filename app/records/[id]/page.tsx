@@ -9,16 +9,9 @@ import { useHealthRecords, HealthRecord } from '../../hooks/useHealthRecords';
 import PdfViewer from '../../components/PdfViewer';
 import React from 'react';
 
-// Define the correct interface pattern for the page props from Next.js 15
-type PageProps = {
-  params: Promise<any>;
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
-export default function RecordDetail(props: PageProps) {
-  // Always use React.use to unwrap the params promise
-  const resolvedParams = React.use(props.params);
-  const recordId = resolvedParams.id;
+// Update to the simpler recommended pattern
+export default function RecordDetail({ params }: { params: { id: string } }) {
+  const recordId = params.id;
 
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();

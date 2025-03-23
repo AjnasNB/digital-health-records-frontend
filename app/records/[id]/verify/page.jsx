@@ -8,10 +8,8 @@ import VerificationCall from '../../../components/VerificationCall';
 import { getRecordById } from '../../../services/api';
 import { useAuth } from '../../../context/AuthContext';
 
-export default function VerificationPage(props) {
-  // Always use React.use to unwrap the params promise
-  const resolvedParams = React.use(props.params);
-  const recordId = resolvedParams.id;
+export default function VerificationPage({ params }) {
+  const recordId = params.id;
   
   const router = useRouter();
   const { user } = useAuth();

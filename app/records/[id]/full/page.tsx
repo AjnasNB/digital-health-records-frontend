@@ -2,22 +2,28 @@
 
 import React, { useState, useEffect } from 'react';
 import DetailedHealthRecord from '../../../components/DetailedHealthRecord';
+import { useRouter } from 'next/navigation';
+import { useHealthRecords } from '../../../hooks/useHealthRecords';
 import Link from 'next/link';
 
-// Use a more generic approach that should work with Next.js typing
-type PageParams = {
-  id: string;
-};
+export default function HealthRecordDetailPage({ params }: { params: { id: string } }) {
+  const [pageTitle, setPageTitle] = useState("Detailed Health Record");
+  const { getRecordById } = useHealthRecords();
+  const router = useRouter();
 
-type PageProps = {
-  params: PageParams;
-};
-
-export default function HealthRecordDetailPage({ params }: PageProps) {
-  // Set document title using useEffect
   useEffect(() => {
-    document.title = "Health Record Details | Docufy";
-  }, []);
+    // Fetch the record to get its title
+    const fetchRecordTitle = async () => {
+      const record = await getRecordById(params.id);
+      if (record) {
+        setPageTitle(`${record.title} - Health Record Details`);
+        // Update the document title directly
+        document.title = `${record.title} - Health Record Details | Docufy`;
+      }
+    };
+
+    fetchRecordTitle();
+  }, [params.id, getRecordById]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white pt-24 pb-12">
@@ -40,7 +46,7 @@ export default function HealthRecordDetailPage({ params }: PageProps) {
         
         <div className="text-center mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-white">
-            Detailed Health Record
+            {pageTitle}
           </h1>
           <p className="mt-2 text-gray-400">
             View comprehensive information extracted from your health document
